@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quizora — Interactive Quiz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>❓</text></svg>">
+</head>
+<body>
+    <div class="bg"></div>
+    <header class="site-header" role="banner">
+        <div class="container row between center">
+            <h1 class="logo" aria-label="Quizora Home">Quizora</h1>
+            <nav class="nav" aria-label="Primary">
+                <button id="btn-highscores" class="ghost" aria-haspopup="dialog">High Scores</button>
+                <button id="btn-theme" class="ghost" aria-pressed="false" title="Toggle theme">🌗</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" id="app" role="main">
+        <section id="welcome-card" class="card floating in" aria-labelledby="welcome-title">
+            <h2 id="welcome-title" class="intro-title">Welcome to Quizora ✨</h2>
+            <p class="lead">Let’s personalize your experience. What should we call you?</p>
+            <form id="name-form" class="row gap-sm">
+                <label class="sr-only" for="input-name">Your name</label>
+                <input id="input-name" type="text" placeholder="Enter your name" maxlength="20" required />
+                <button type="submit" class="primary">Continue</button>
+            </form>
+            <p id="welcome-note" class="muted small-note">You’ll see your name on scores and greetings.</p>
+        </section>
+
+        <section id="setup-card" class="card floating hidden" aria-labelledby="setup-title">
+            <h2 id="setup-title">Start a Quiz</h2>
+            <p class="muted">Choose preferences and let the challenge begin.</p>
+            <form id="setup-form" class="grid">
+                <label>
+                    <span>Number of Questions</span>
+                    <input type="number" id="input-amount" min="5" max="25" value="10" />
+                </label>
+                <label>
+                    <span>Category</span>
+                    <select id="select-category">
+                        <option value="">Any</option>
+                    </select>
+                </label>
+                <label>
+                    <span>Difficulty</span>
+                    <select id="select-difficulty">
+                        <option value="">Any</option>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </label>
+                <label>
+                    <span>Type</span>
+                    <select id="select-type">
+                        <option value="">Any</option>
+                        <option value="multiple">Multiple Choice</option>
+                        <option value="boolean">True / False</option>
+                    </select>
+                </label>
+
+                <div class="advanced">
+                    <div class="advanced-body">
+                        <label>
+                            <span>Per-question Timer (seconds)</span>
+                            <input type="number" id="input-timer" min="0" max="120" value="20" />
+                        </label>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button type="submit" id="btn-start" class="primary">Start Quiz</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="quiz-card" class="card floating hidden" aria-live="polite">
+            <div class="quiz-header row between center">
+                <div class="progress">
+                    <div id="progress-bar" class="bar" style="--p:0%"></div>
+                </div>
+                <div class="row center gap-sm">
+                    <div id="timer" class="chip" aria-label="Timer">00</div>
+                    <div id="score" class="chip" aria-label="Score">0</div>
+                </div>
+            </div>
+            <div id="question-area">
+                <h2 id="question-text" class="question"></h2>
+                <ul id="answers" class="answers" role="list"></ul>
+            </div>
+            <div class="actions">
+                <button id="btn-next" class="primary" disabled>Next</button>
+                <button id="btn-quit" class="ghost">Quit</button>
+            </div>
+        </section>
+
+        <section id="result-card" class="card floating hidden" aria-labelledby="result-title">
+            <h2 id="result-title">Results</h2>
+            <p id="result-summary" class="lead"></p>
+            <form id="save-score" class="row gap-sm">
+                <small id="result-name-note" class="muted"></small>
+                <button type="submit" class="primary">Save High Score</button>
+            </form>
+            <div class="actions">
+                <button id="btn-play-again" class="primary">Play Again</button>
+                <button id="btn-home" class="ghost">Home</button>
+            </div>
+        </section>
+    </main>
+
+    <dialog id="dialog-highscores" aria-labelledby="hs-title">
+        <form method="dialog" class="card">
+            <h3 id="hs-title">High Scores</h3>
+            <ol id="hs-list" class="hs-list"></ol>
+            <div class="row between">
+                <button value="cancel" class="ghost">Close</button>
+            </div>
+        </form>
+    </dialog>
+
+    <footer class="site-footer">
+        <div class="container row between center">
+            <small class="muted">Built with ❤️ — Enjoy the quiz!</small>
+            <small class="muted footer-center">work done by the SHASHANK.D — <a href="https://www.linkedin.com/in/shashank33/" target="_blank" rel="noopener noreferrer">LinkedIn</a></small>
+            <small class="muted">Theme: <span id="theme-label">Auto</span></small>
+        </div>
+    </footer>
+
+    <script src="script.js" defer></script>
+    <noscript>
+        <style>.card{display:none!important}.noscript{display:block!important}</style>
+        <div class="container noscript">This quiz requires JavaScript.</div>
+    </noscript>
+</body>
+</html>
+
+
